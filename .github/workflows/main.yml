@@ -9,7 +9,7 @@ on:
       - '*'
 
 jobs:
-  build:
+  build-and-run:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,8 +26,8 @@ jobs:
 
       - name: Run Java Code
         run: 
-          cd open-code-review-sdk/src/main/java \
-          javac /top/kimwonjoon/sdk/OpenAiCodeReview.java \
-          java top.kimwonjoon.sdk.OpenAiCodeReview \
+          cd open-code-review-sdk/src/main/java 
+          javac /top/kimwonjoon/sdk/OpenAiCodeReview.java 
+          java top.kimwonjoon.sdk.OpenAiCodeReview 
 
         

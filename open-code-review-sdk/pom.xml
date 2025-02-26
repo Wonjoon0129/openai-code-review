@@ -84,6 +84,20 @@
             <artifactId>okhttp-sse</artifactId>
             <version>4.11.0</version> <!-- 建议与现有OkHttp版本一致 -->
         </dependency>
+        <!-- Maven项目添加Kotlin标准库 -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>1.9.0</version> <!-- 推荐使用最新稳定版 -->
+        </dependency>
+
+        <!-- 如果使用JDK8+需要额外添加反射库 -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
 
         <!-- 如果尚未引入OkHttp核心库需同时添加 -->
         <dependency>
@@ -160,8 +174,12 @@
                             <include>com.fasterxml.jackson.core:jackson-annotations:</include>
                             <include>org.eclipse.jgit:org.eclipse.jgit:</include>
                             <include>com.alibaba:dashscope-sdk-java:</include>
+
                             <include>com.squareup.okhttp3:okhttp:</include>
                             <include>com.squareup.okhttp3:okhttp-sse</include>
+                            <include>org.jetbrains.kotlin:kotlin-stdlib:</include>
+                            <include>org.jetbrains.kotlin:kotlin-reflect:</include>
+
                         </includes>
                     </artifactSet>
                 </configuration>

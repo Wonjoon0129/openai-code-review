@@ -11,7 +11,11 @@ public class ApiTest {
 
     @Test
     public void test() {
-        System.out.println(Integer.parseInt("abc1234"));
+        System.out.println(Integer.parseInt("aaaaa1"));
+        System.out.println(Integer.parseInt("aaaaa2"));
+        System.out.println(Integer.parseInt("aaaaa3"));
+        System.out.println(Integer.parseInt("aaaaa4"));
+
     }
 
 }

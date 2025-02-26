@@ -9,7 +9,7 @@
     <version>1.0</version>
     <packaging>pom</packaging>
     <modules>
-        <module>open-code-review-sdk</module>
+        <module>openai-code-review-sdk</module>
         <module>openai-code-review-test</module>
     </modules>
 

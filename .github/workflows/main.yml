@@ -21,13 +21,11 @@ jobs:
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
+          distribution: 'temurin'  # 你可以选择其他发行版，如 'adopt' 或 'zulu'
           java-version: '11'
 
-      - name: Run Java Code
-        run: 
-          cd openai-code-review-sdk/src/main/java 
-          javac /top/kimwonjoon/sdk/OpenAiCodeReview.java 
-          java top.kimwonjoon.sdk.OpenAiCodeReview 
-
-        
+      - name: Run Java code
+        run: |
+          cd openai-code-review-sdk/src/main/java
+          javac top/kimwonjoon/sdk/OpenAiCodeReview.java
+          java topkimwonjoon.sdk.OpenAiCodeReview

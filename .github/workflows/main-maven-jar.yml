@@ -23,12 +23,6 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '11'
-          
-      - name: pip
-        run: sudo apt-get install python3-pip
-        
-      - name: pip
-        run: pip install -U dashscope
       
       - name: Build with Maven
         run: mvn clean install

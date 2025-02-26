@@ -26,6 +26,6 @@ jobs:
 
       - name: Run Java code
         run: |
-          cd openai-code-review-sdk/src/main/java
+          cd open-code-review-sdk/src/main/java
           javac top/kimwonjoon/sdk/OpenAiCodeReview.java
           java top.kimwonjoon.sdk.OpenAiCodeReview

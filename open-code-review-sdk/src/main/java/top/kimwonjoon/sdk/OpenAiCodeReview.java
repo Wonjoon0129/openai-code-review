@@ -50,7 +50,7 @@ public class OpenAiCodeReview {
         }
 
         int exitCode = process.waitFor();
-        System.out.println("ExitCode:"+diffCode);
+        System.out.println("ExitCode:"+exitCode);
         System.out.println("评审代码"+diffCode.toString());
 
         //2.通过 deepseek 代码评审

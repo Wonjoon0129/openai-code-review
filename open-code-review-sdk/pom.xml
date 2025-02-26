@@ -109,7 +109,7 @@
                     <archive>
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <mainClass>plus.gaga.middleware.sdk.OpenAiCodeReview</mainClass>
+                            <mainClass>top.kimwonjoon.sdk.OpenAiCodeReview</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

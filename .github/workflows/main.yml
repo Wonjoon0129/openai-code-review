@@ -1,4 +1,4 @@
-name: OpenAiCodeReview
+name: Run Java Git Diff By Local
 
 on:
   push:
@@ -24,9 +24,9 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
 
-      - name: Run Code Review
+      - name: Run Java Code
         run: 
-          cd openai-code-review/src/main/java
+          cd openai-code-review-sdk/src/main/java
           javac /top/kimwonjoon/sdk/OpenAiCodeReview.java
           java top.kimwonjoon.sdk.OpenAiCodeReview
 

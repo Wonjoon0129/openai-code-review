@@ -78,6 +78,20 @@
             <!-- 请将 'the-latest-version' 替换为最新版本号：https://mvnrepository.com/artifact/com.alibaba/dashscope-sdk-java -->
             <version>2.18.3</version>
         </dependency>
+        <!-- Maven项目添加依赖 -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp-sse</artifactId>
+            <version>4.11.0</version> <!-- 建议与现有OkHttp版本一致 -->
+        </dependency>
+
+        <!-- 如果尚未引入OkHttp核心库需同时添加 -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.11.0</version>
+        </dependency>
+
     </dependencies>
     <build>
         <resources>
@@ -146,6 +160,8 @@
                             <include>com.fasterxml.jackson.core:jackson-annotations:</include>
                             <include>org.eclipse.jgit:org.eclipse.jgit:</include>
                             <include>com.alibaba:dashscope-sdk-java:</include>
+                            <include>com.squareup.okhttp3:okhttp:</include>
+                            <include>com.squareup.okhttp3:okhttp-sse</include>
                         </includes>
                     </artifactSet>
                 </configuration>

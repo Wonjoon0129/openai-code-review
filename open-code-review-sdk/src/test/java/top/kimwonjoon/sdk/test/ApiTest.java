@@ -2,6 +2,7 @@ package top.kimwonjoon.sdk.test;
 
 import com.alibaba.fastjson2.JSON;
 import org.junit.Test;
+import top.kimwonjoon.sdk.domain.model.ChatCompletionSyncResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class ApiTest {
         HttpURLConnection connection=(HttpURLConnection)url.openConnection();
 
         connection.setRequestMethod("POST");
-        connection.setRequestProperty("Authorization","Bearer sk-db2968be21644311a3ceca2de967552b");
+        connection.setRequestProperty("Authorization","Bearer "+apiKeySecret);
         connection.setRequestProperty("Content-Type","application/json");
         connection.setDoOutput(true);
 
@@ -41,7 +42,7 @@ public class ApiTest {
                 + "\"messages\": ["
                 + "    {"
                 + "        \"role\": \"user\","
-                + "        \"content\": \"你是一个高级编程架构师，精通各类场景方案、架构设计和编程语言请，请您根据git diff记录，对代码做出评审。代码为: " + code + "\""
+                + "        \"content\": \"你是一个高级编程架构师，精通各类场景方案、架构设计和编程语言请，请您根据git diff记录，对代码做出评审。代码为:"+code+"\""
                 + "    }"
                 + "]"
                 + "}";
@@ -65,7 +66,8 @@ public class ApiTest {
         in.close();
         connection.disconnect();
 
-        System.out.println(content);
+        ChatCompletionSyncResponse response = JSON.parseObject(content.toString(), ChatCompletionSyncResponse.class);
+        System.out.println(response.getChoices().get(0).getMessage().getContent());
 
     }
 }

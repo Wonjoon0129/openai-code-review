@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ChatCompletionRequest {
 
-    private String model = Model.GLM_4_FLASH.getCode();
+    private String model = Model.DEEPSEEK_V3.getCode();
     private List<Prompt> messages;
 
     public static class Prompt {

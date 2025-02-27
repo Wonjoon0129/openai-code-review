@@ -44,22 +44,12 @@ public class OpenAiCodeReview {
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setDoOutput(true);
 
-        String code = "1+1";
-        String jsonInpuString = "{"
-                + "\"model\": \"deepseek-r1-distill-qwen-1.5b\","
-                + "\"messages\": ["
-                + "    {"
-                + "        \"role\": \"user\","
-                + "        \"content\": \"你是一个高级编程架构师，精通各类场景方案、架构设计和编程语言请，请您根据git diff记录，对代码做出评审。代码为:" + code + "\""
-                + "    }"
-                + "]"
-                + "}";
         ChatCompletionRequest chatCompletionRequest = new ChatCompletionRequest();
-        chatCompletionRequest.setModel(Model.DEEPSEEK_V3.getCode());
+        chatCompletionRequest.setModel(Model.DEEPSEEK_R1_DISTILL_QWEN_1_5B.getCode());
         chatCompletionRequest.setMessages(new ArrayList<ChatCompletionRequest.Prompt>() {
             {
                 add(new ChatCompletionRequest.Prompt("user", "你是一个高级编程架构师，精通各类场景方案、架构设计和编程语言请，请您根据git diff记录，对代码做出评审。代码如下:"));
-                add(new ChatCompletionRequest.Prompt("user", diffCode.toString()));
+                add(new ChatCompletionRequest.Prompt("user", "12131331"));
             }
         });
 
@@ -71,7 +61,6 @@ public class OpenAiCodeReview {
 
         int responseCode = connection.getResponseCode();
         System.out.println(responseCode);
-        System.out.println("111");
 
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String inputLine;

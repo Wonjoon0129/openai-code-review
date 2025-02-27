@@ -112,7 +112,7 @@ public class OpenAiCodeReview {
         git.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider(token, "")).call();
 
         System.out.println("Changes have been pushed to the repository.");
-        String logUrl = "https://github.com/Wonjoon0129/openai-code-review-log/blob/main" + dateFolderName + "/" + fileName;
+        String logUrl = "https://github.com/Wonjoon0129/openai-code-review-log/blob/main/" + dateFolderName + "/" + fileName;
         pushMessage(logUrl);
 
 

@@ -13,8 +13,8 @@ public class ApiTest {
     public void test() {
         System.out.println(Integer.parseInt("aaaaa1"));
         System.out.println(Integer.parseInt("aaaaa2"));
-        System.out.println(Integer.parseInt("aaaaa3、4"));
-        System.out.println(Integer.parseInt("aaaaa6"));
+        System.out.println(Integer.parseInt("aaaaa3"));
+        System.out.println(Integer.parseInt("aaaaa4"));
 
     }
 

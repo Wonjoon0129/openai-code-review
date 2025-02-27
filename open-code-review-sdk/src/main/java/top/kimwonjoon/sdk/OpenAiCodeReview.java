@@ -1,13 +1,16 @@
 package top.kimwonjoon.sdk;
 
 import com.alibaba.fastjson2.JSON;
+import top.kimwonjoon.sdk.domain.model.ChatCompletionRequest;
 import top.kimwonjoon.sdk.domain.model.ChatCompletionSyncResponse;
+import top.kimwonjoon.sdk.domain.model.Model;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class OpenAiCodeReview {
@@ -51,11 +54,21 @@ public class OpenAiCodeReview {
                 + "    }"
                 + "]"
                 + "}";
-        System.out.println("1111111");
+        ChatCompletionRequest chatCompletionRequest = new ChatCompletionRequest();
+        chatCompletionRequest.setModel(Model.DEEPSEEK_V3.getCode());
+        chatCompletionRequest.setMessages(new ArrayList<ChatCompletionRequest.Prompt>() {
+            {
+                add(new ChatCompletionRequest.Prompt("user", "你是一个高级编程架构师，精通各类场景方案、架构设计和编程语言请，请您根据git diff记录，对代码做出评审。代码如下:"));
+                add(new ChatCompletionRequest.Prompt("user", diffCode.toString()));
+            }
+        });
+
+
         try (OutputStream os = connection.getOutputStream()) {
-            byte[] input = jsonInpuString.getBytes(StandardCharsets.UTF_8);
+            byte[] input = JSON.toJSONString(chatCompletionRequest).getBytes(StandardCharsets.UTF_8);
             os.write(input);
         }
+
         int responseCode = connection.getResponseCode();
         System.out.println(responseCode);
         System.out.println("111");

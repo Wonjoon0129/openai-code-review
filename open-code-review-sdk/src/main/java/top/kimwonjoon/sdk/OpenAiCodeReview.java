@@ -1,6 +1,9 @@
 package top.kimwonjoon.sdk;
 
 import com.alibaba.fastjson2.JSON;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import top.kimwonjoon.sdk.domain.model.ChatCompletionRequest;
 import top.kimwonjoon.sdk.domain.model.ChatCompletionSyncResponse;
 import top.kimwonjoon.sdk.domain.model.Model;
@@ -10,13 +13,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Random;
 
 public class OpenAiCodeReview {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException, GitAPIException {
         System.out.println("测试执行");
+
+        String token = System.getenv("GITHUB_TOKEN");
+        if (null == token || token.isEmpty()) {
+            throw new RuntimeException("token is null");
+        }
+
 
         //1.代码检出
         ProcessBuilder processBuilder = new ProcessBuilder("git", "diff", "HEAD~1", "HEAD");
@@ -75,5 +87,43 @@ public class OpenAiCodeReview {
 
         ChatCompletionSyncResponse response = JSON.parseObject(content.toString(), ChatCompletionSyncResponse.class);
         System.out.println(response.getChoices().get(0).getMessage().getContent());
+        String log = response.getChoices().get(0).getMessage().getContent();
+
+        //3.写日志
+        Git git = Git.cloneRepository().
+                setURI("https://github.com/Wonjoon0129/openai-code-review-log")
+                .setDirectory(new File("repo"))
+                .setCredentialsProvider(new UsernamePasswordCredentialsProvider(token, ""))
+                .call();
+
+        String dateFolderName = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        File file = new File("repo/" + dateFolderName);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        
+        String fileName = generateRandomString(12) + ".md";
+        File newFile = new File(file, fileName);
+        try (FileWriter writer = new FileWriter(newFile)) {
+            writer.write(log);
+        }
+
+        git.add().addFilepattern(dateFolderName + "/" + fileName).call();
+        git.commit().setMessage("Add new file via GitHub Actions").call();
+        git.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider(token, "")).call();
+
+        System.out.println("Changes have been pushed to the repository.");
+
+
+    }
+        private static String generateRandomString(int length) {
+            String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            Random random = new Random();
+            StringBuilder sb = new StringBuilder(length);
+            for (int i = 0; i < length; i++) {
+                sb.append(characters.charAt(random.nextInt(characters.length())));
+            }
+            return sb.toString();
+
     }
 }

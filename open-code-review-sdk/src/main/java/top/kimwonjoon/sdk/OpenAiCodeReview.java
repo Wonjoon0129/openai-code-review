@@ -91,7 +91,7 @@ public class OpenAiCodeReview {
 
         //3.写日志
         Git git = Git.cloneRepository().
-                setURI("https://github.com/Wonjoon0129/openai-code-review-log")
+                setURI("https://github.com/Wonjoon0129/openai-code-review-log.git")
                 .setDirectory(new File("repo"))
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(token, ""))
                 .call();

@@ -6,7 +6,9 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import top.kimwonjoon.sdk.domain.model.ChatCompletionRequest;
 import top.kimwonjoon.sdk.domain.model.ChatCompletionSyncResponse;
+import top.kimwonjoon.sdk.domain.model.Message;
 import top.kimwonjoon.sdk.domain.model.Model;
+import top.kimwonjoon.sdk.types.utils.WXAccessTokenUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -14,10 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 public class OpenAiCodeReview {
 
@@ -113,17 +112,56 @@ public class OpenAiCodeReview {
         git.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider(token, "")).call();
 
         System.out.println("Changes have been pushed to the repository.");
+        String logUrl = "https://github.com/Wonjoon0129/openai-code-review-log/tree/main" + dateFolderName + "/" + fileName;
+        pushMessage(logUrl);
 
 
     }
-        private static String generateRandomString(int length) {
-            String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            Random random = new Random();
-            StringBuilder sb = new StringBuilder(length);
-            for (int i = 0; i < length; i++) {
-                sb.append(characters.charAt(random.nextInt(characters.length())));
-            }
-            return sb.toString();
+    public static void pushMessage(String logUrl){
+        String accessToken = WXAccessTokenUtils.getAccessToken();
+        System.out.println(accessToken);
 
+        Message message = new Message();
+        message.put("peoject","big-market");
+        message.put("review",logUrl);
+        message.setUrl(logUrl);
+
+        String url = String.format("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", accessToken);
+        sendPostRequest(url, JSON.toJSONString(message));
+
+
+    }
+    private static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return sb.toString();
+
+    }
+
+    private static void sendPostRequest(String urlString, String jsonBody) {
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            try (Scanner scanner = new Scanner(conn.getInputStream(), StandardCharsets.UTF_8.name())) {
+                String response = scanner.useDelimiter("\\A").next();
+                System.out.println(response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
